@@ -1,5 +1,11 @@
 Translate Eloquent attributes into multiple languages and use `getLocale()` to seamlessly query the right translation.
 
+### Install
+
+```shell
+composer require cloudmonitor/translatable
+```
+
 ### Prepare Eloquent models
 
 Similar to other special attributes in Eloquent, such as `$fillables`, translatable attributes must be defined as an array. It is as simple as giving the name of the database column:
