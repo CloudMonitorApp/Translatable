@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\Traits;
+namespace CloudMonitor\Translatable;
 
 /**
  * Trait allowing certain properties (columns) in Eloquent to be
