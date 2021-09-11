@@ -56,14 +56,6 @@ Similarly, a specific language can be queried:
 Book::find($id)->getTranslation('name', 'en');
 ```
 
-#### Eager load
-
-Eager loading might cause the raw data to be processed. This can be solved using `->translate()`
-
-```php
-Book::with('author')->find($id)->translate();
-```
-
 ### Migrations
 
 Behind the scenes Translatable uses `JSON` columns in the database to store multiple versions in the same column:
