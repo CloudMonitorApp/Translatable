@@ -69,13 +69,15 @@ trait Translatable
      */
     public function translate()
     {
-        return collect($this->attributes)->map(function($value, $attribute) {
+        $this->attributes = collect($this->attributes)->map(function($value, $attribute) {
             if (! in_array($attribute, $this->translatable)) {
                 return $value;
             }
 
             return $this->getTranslation($attribute);
         })->toArray();
+
+        return $this;
     }
 
     /**
