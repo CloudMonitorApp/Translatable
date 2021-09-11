@@ -62,6 +62,23 @@ trait Translatable
     }
 
     /**
+     * Perform translation to all attributes.
+     * Eager load causes direct load from column without applying translation rules.
+     * 
+     * @return array
+     */
+    public function translate()
+    {
+        return collect($this->attributes)->map(function($value, $attribute) {
+            if (! in_array($attribute, $this->translatable)) {
+                return $value;
+            }
+
+            return $this->getTranslation($attribute);
+        })->toArray();
+    }
+
+    /**
      * Get translation if matches value in protected $translatable = [].
      * Otherwise calling parent __get($key)
      * 
