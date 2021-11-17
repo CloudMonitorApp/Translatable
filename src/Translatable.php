@@ -2,6 +2,9 @@
 
 namespace CloudMonitor\Translatable;
 
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\DB;
+
 /**
  * Trait allowing certain properties (columns) in Eloquent to be
  * translatable into different locales.
@@ -95,6 +98,27 @@ trait Translatable
         }
 
         parent::__set($key, $value);
+    }
+
+    /**
+     * Order by translatable columns.
+     * 
+     * @param Builder $query
+     * @param string $column
+     * @param string $direction
+     * @param string $locale
+     * @return void
+     */
+    public function scopeOrderByTranslation(Builder $query, string $column, string $direction = 'asc', string $locale = null): void
+    {
+        $locale = $locale ? $locale : app()->getLocale();
+
+        foreach($query->getQuery()->columns ?? ['*'] as $col) {
+            $query->addSelect($col);
+        }
+
+        $query->addSelect(DB::raw('JSON_EXTRACT('. $column .', "$.'. $locale .'") AS TRANS_SORT'))
+            ->orderBy('TRANS_SORT', $direction);
     }
 
     /**
