@@ -56,6 +56,17 @@ Similarly, a specific language can be queried:
 Book::find($id)->getTranslation('name', 'en');
 ```
 
+### Order By translated columns
+
+Since the build-in `->orderBy()` won't work as the data is stored in JSON format, an optimized `->orderByTranslation()` has been added.
+
+First parameter is column name, second will be direction and third locale.
+Only first column is required.
+
+```php
+Book::orderByTranslation('name', 'asc', 'en');
+```
+
 ### Migrations
 
 Behind the scenes Translatable uses `JSON` columns in the database to store multiple versions in the same column:
