@@ -113,12 +113,61 @@ trait Translatable
     {
         $locale = $locale ? $locale : app()->getLocale();
 
-        foreach($query->getQuery()->columns ?? ['*'] as $col) {
+        $columns = $query->getQuery()->columns ?? ['*'];
+        $query->getQuery()->columns = [];
+
+        foreach($columns as $col) {
             $query->addSelect($col);
         }
 
-        $query->addSelect(DB::raw('JSON_EXTRACT('. $column .', "$.'. $locale .'") AS TRANS_SORT'))
-            ->orderBy('TRANS_SORT', $direction);
+        $query->addSelect(DB::raw('JSON_EXTRACT('. $column .', "$.'. $locale .'") AS `TRANS_SORT_'. strtoupper($column) .'`'))
+            ->orderBy('TRANS_SORT_'. strtoupper($column), $direction);
+    }
+
+    /**
+     * Where translation contains.
+     * Case insensitive search for translation.
+     * 
+     * @param Builder $query
+     * @param string $column
+     * @param string $operator
+     * @param string $search
+     * @param string $locale
+     * @param string $logic
+     * @return void
+     */
+    public function scopeWhereTranslation(Builder $query, string $column, string $operator = '=', string $search, string $locale = null, string $logic = 'and'): void
+    {
+        $locale = $locale ? $locale : app()->getLocale();
+
+        $columns = $query->getQuery()->columns ?? ['*'];
+        $query->getQuery()->columns = [];
+
+        foreach($columns as $col) {
+            $query->addSelect($col);
+        }
+
+        $query->addSelect(DB::raw('LOWER(JSON_EXTRACT('. $column .', "$.'. $locale .'")) AS `TRANS_WHERE_'. strtoupper($column) .'`'));
+
+        $logic === 'and'
+            ? $query->having('TRANS_WHERE_'. strtoupper($column), $operator, strtolower($search))
+            : $query->orHaving('TRANS_WHERE_'. strtoupper($column), $operator, strtolower($search));
+    }
+
+    /**
+     * Where Translation contains.
+     * Or equivalent to whereTranslation.
+     * 
+     * @param Builder $query
+     * @param string $column
+     * @param string $operator
+     * @param string $search
+     * @param string $locale
+     * @return void
+     */
+    public function scopeOrWhereTranslation(Builder $query, string $column, string $operator = '=', string $search, string $locale = null): void
+    {
+        $this->scopeWhereTranslation($query, $column, $operator, $search, $locale, 'or');
     }
 
     /**
