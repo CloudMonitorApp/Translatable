@@ -130,13 +130,13 @@ trait Translatable
      * 
      * @param Builder $query
      * @param string $column
-     * @param string $operator
      * @param string $search
+     * @param string $operator
      * @param string $locale
      * @param string $logic
      * @return void
      */
-    public function scopeWhereTranslation(Builder $query, string $column, string $operator = '=', string $search, string $locale = null, string $logic = 'and'): void
+    public function scopeWhereTranslation(Builder $query, string $column, string $search, string $operator = '=', string $locale = null, string $logic = 'and'): void
     {
         $locale = $locale ? $locale : app()->getLocale();
 
@@ -167,7 +167,7 @@ trait Translatable
      */
     public function scopeOrWhereTranslation(Builder $query, string $column, string $operator = '=', string $search, string $locale = null): void
     {
-        $this->scopeWhereTranslation($query, $column, $operator, $search, $locale, 'or');
+        $this->scopeWhereTranslation($query, $column, $search, $operator, $locale, 'or');
     }
 
     /**
