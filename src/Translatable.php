@@ -208,7 +208,7 @@ trait Translatable
      * @param string $locale
      * @return String
      */
-    public function getTranslation(string $key, string $locale = null): String
+    public function getTranslation(string $key, string $locale = null): ?String
     {
         $locale = $locale ? $locale : app()->getLocale();
 
