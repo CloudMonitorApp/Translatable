@@ -191,6 +191,17 @@ trait Translatable
     }
 
     /**
+     * Get all translations.
+     * 
+     * @param string $key
+     * @return \stdClass
+     */
+    public function getTranslations(string $key): \stdClass
+    {
+        return json_decode($this->attributes[$key]);
+    }
+
+    /**
      * Get translation.
      * 
      * @param string $key
