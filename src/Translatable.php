@@ -147,11 +147,11 @@ trait Translatable
             $query->addSelect($col);
         }
 
-        $query->addSelect(DB::raw('LOWER(JSON_EXTRACT('. $column .', "$.'. $locale .'")) AS `TRANS_WHERE_'. strtoupper($column) .'`'));
+        $query->addSelect(DB::raw('LOWER(JSON_EXTRACT('. $column .', "$.'. $locale .'")) AS `TRANS_WHERE_'. strtoupper($this->getTable() .'_'. $column) .'`'));
 
         $logic === 'and'
-            ? $query->having('TRANS_WHERE_'. strtoupper($column), $operator, strtolower($search))
-            : $query->orHaving('TRANS_WHERE_'. strtoupper($column), $operator, strtolower($search));
+            ? $query->having('TRANS_WHERE_'. strtoupper($this->getTable() .'_'. $column), $operator, strtolower($search))
+            : $query->orHaving('TRANS_WHERE_'. strtoupper($this->getTable() .'_'. $column), $operator, strtolower($search));
     }
 
     /**
