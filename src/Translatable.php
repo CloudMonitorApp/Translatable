@@ -196,9 +196,15 @@ trait Translatable
      * @param string $key
      * @return \stdClass
      */
-    public function getTranslations(string $key): \stdClass
+    public function getTranslations(string $key): ?\stdClass
     {
-        return json_decode($this->attributes[$key]);
+        $translations = json_decode($this->attributes[$key]) ?? null;
+
+        if (is_array($translations)) {
+            return null;
+        }
+
+        return $translations;
     }
 
     /**
@@ -212,6 +218,6 @@ trait Translatable
     {
         $locale = $locale ? $locale : app()->getLocale();
 
-        return json_decode($this->attributes[$key])->{$locale};
+        return json_decode($this->attributes[$key])->{$locale} ?? null;
     }
 }
