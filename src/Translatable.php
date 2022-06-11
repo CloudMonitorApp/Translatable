@@ -181,6 +181,7 @@ trait Translatable
     {
         if (isset($this->attributes[$key])) {
             $attribute = json_decode($this->attributes[$key]);
+            $attribute->{$locale} = $value;
         }
         else {
             $attribute = [$locale => $value];
