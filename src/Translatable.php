@@ -2,8 +2,8 @@
 
 namespace CloudMonitor\Translatable;
 
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Eloquent\Builder;
 
 /**
  * Trait allowing certain properties (columns) in Eloquent to be
@@ -183,7 +183,7 @@ trait Translatable
             $attribute = json_decode($this->attributes[$key]);
         }
         else {
-            $attribute = [];
+            $attribute = [$locale => $value];
         }
 
         $attributes[$locale] = $value;
