@@ -188,7 +188,7 @@ trait Translatable
         }
 
         $attributes[$locale] = $value;
-        $this->attributes[$key] = json_encode($attribute);
+        $this->attributes[$key] = json_encode($attribute, JSON_UNESCAPED_UNICODE);
     }
 
     /**
