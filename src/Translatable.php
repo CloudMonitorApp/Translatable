@@ -58,7 +58,7 @@ trait Translatable
         $casts = [];
 
         collect($this->translatable)->each(function ($item) use(&$casts) {
-            $casts[$item] = 'json';
+            $casts[$item] = TranslatableCast::class;
         });
 
         return $casts;
